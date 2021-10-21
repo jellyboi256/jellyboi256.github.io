@@ -1,0 +1,101 @@
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="main.css" />
+		<style>
+
+		</style>
+
+		<title>Minecraft Quiz</title>
+
+		<script>  function banner(){
+			var text = confirm("Did You Really Want to Click on My Banner?");
+			return text;
+		} 
+
+		function answer(){
+			var radio =  document.getElementsByName("trivia");
+			var selection = false;
+			var message = "";
+
+			for( var i = 0; i < radio.length; i++) {
+			  if(radio[i].value == "yes" && radio[i].checked == true) {
+				selection = true;
+				}
+			}
+			
+
+			if(selection == true) {
+			message = message + "<b><p style='color:orange'>Way to go!</p></b>";
+			} else {
+			message = message + "<b><p style='color:red'>Try again my friend.</p></b>";
+			}
+			document.getElementById("response").innerHTML = message;	
+		}        
+		 </script>
+
+	<footer id = "footer"> Thanks for playing </footer>
+
+	</head>
+
+	<body id = "background">
+
+		<a oneclick ="return banner()"  href="https://www.youtube.com/c/Squeeb">
+		<header id = "banner"> The Minecraft quiz page</header>
+		</a>
+
+		<nav>
+		 <ul id = "navmenu">
+		 	<li class ="navitem"> <a href="index.html"> Quiz </a> </li>
+		 	<li class ="navitem"> <a href="positions.html"> Home </a> </li>
+		 	<li class ="navitem"> <a href="games.html"> Games </a> </li>
+		</nav>
+
+		<center><h1> Minecraft quizzing </h1></center>
+
+
+		<h3><center><p> On this page you will be able to test your <i>minecraft</i> knowledge. <br/> If you <u class = Underline>win</u> the quiz then you <b>beat the computer</b>?<br/> Can you beat it? Wanna try? Let's go!</center><h3>
+
+		<hr3><center>(Or are you a noob)</center><hr3>
+
+		<h2><center> Minecraft trivia question </center></h2>
+		<div class = "trivia">
+		<p class = Paragraph> Where do you find a blaze? </p>
+		</div>
+	<form>
+		<div id = "response"> </div>
+		<div class = "last">
+		<input type= "radio" name= "trivia" value = "no"> In a Bastion Remnant
+		</div>
+
+		<div class = "second">
+		<input type= "radio" name= "trivia" value = "no"> In a dungeon
+		</div>
+
+		<div class = "third">
+		<input type= "radio" name= "trivia" value = "yes"> In a Nether Fortress
+		</div>
+
+		<div class = "fourth">
+		<input type= "radio" name= "trivia" value = "no"> <span class = "intheend"> In the end </span>
+		</div>
+
+		<input onclick="answer()" id = "button" type= "button" value= "Click Here"
+	</form>
+        <br/>
+    <div class = "leftside">
+        <audio id = "horse" width="400" height="220" controls autoplay>
+		<source src="http://www.w3schools.com/tags/horse.mp3" type="audio/mpeg">
+		</audio>
+
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/q7mGXe5dCHA?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	</div>
+	<div class = "rightside">	 
+		<img id = "steve" width = "45%" src="https://thumbs.dreamstime.com/z/beginners-character-180374941.jpg" />
+		<img id = "alex" width = "45%" src="https://thumbs.dreamstime.com/z/web-182481998.jpg" />
+	</div>
+	<div class = "clearfloat"></div>
+		<hr />
+		<center> Ethan Newton <a href="https://minecraft.fandom.com/wiki/Caves_%26_Cliffs">My Favorite Website</a></center>
+
+	</body>
+</html>
