@@ -1,4 +1,5 @@
 ## Hi there 👋
+Ethan's Email
 ethannewton987@outlook.com
 <!--
 **jellyboi256/jellyboi256** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
