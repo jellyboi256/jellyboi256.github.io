@@ -3,24 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <title>GET TROLLED</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: white;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    h1 {
+      font-size: 100px;
+      font-family: Arial, sans-serif;
+      margin: 30px 0 20px;
+      color: black;
+      user-select: none;
+    }
+
+    .video-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    iframe {
+      border: none;
+      pointer-events: none; /* user can't interact with player */
+    }
+  </style>
 </head>
-<body>
+<body onclick="unmute()">
 
-  <h1 style="font-size:100px; color:black; text-align:center;">
-    GET TROLLED
-  </h1>
+  <h1>GET TROLLED</h1>
 
-  <div style="text-align:center; margin-top:40px;">
-  <iframe
-    width="800"
-    height="450"
-    src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1"
-    title="Rick Roll"
-    frameborder="0"
-    allow="autoplay; encrypted-media"
-    allowfullscreen>
-  </iframe>
+  <div class="video-wrapper">
+    <iframe
+      id="player"
+      width="800"
+      height="450"
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ
+        ?autoplay=1
+        &mute=1
+        &controls=0
+        &disablekb=1
+        &modestbranding=1
+        &rel=0
+        &playsinline=1"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
   </div>
+
+  <script>
+    function unmute() {
+      const iframe = document.getElementById("player");
+      if (!iframe.src.includes("mute=0")) {
+        iframe.src = iframe.src.replace("mute=1", "mute=0");
+      }
+    }
+  </script>
 
 </body>
 </html>
