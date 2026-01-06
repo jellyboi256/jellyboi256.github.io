@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GET TROLLED</title>
 
   <style>
@@ -10,11 +11,11 @@
       background: white;
       text-align: center;
       cursor: pointer;
+      font-family: Arial, sans-serif;
     }
 
     h1 {
       font-size: 100px;
-      font-family: Arial, sans-serif;
       margin: 30px 0 20px;
       color: black;
       user-select: none;
@@ -23,45 +24,47 @@
     .video-wrapper {
       display: flex;
       justify-content: center;
-      align-items: center;
+      padding: 0 16px 32px;
     }
 
     iframe {
-      border: none;
-      pointer-events: none; /* user can't interact with player */
+      width: min(900px, 95vw);
+      aspect-ratio: 16 / 9;
+      border: 6px solid black;
+      border-radius: 16px;
+      overflow: hidden;
+      display: block;
+      background: black;
     }
   </style>
 </head>
-<body onclick="unmute()">
 
+<body>
   <h1>GET TROLLED</h1>
 
   <div class="video-wrapper">
     <iframe
       id="player"
-      width="800"
-      height="450"
-      src="https://www.youtube.com/embed/dQw4w9WgXcQ
-        ?autoplay=1
-        &mute=1
-        &controls=0
-        &disablekb=1
-        &modestbranding=1
-        &rel=0
-        &playsinline=1"
-      allow="autoplay; encrypted-media"
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&controls=0&disablekb=1&modestbranding=1&rel=0&playsinline=1"
+      title="Rick Roll"
+      allow="autoplay; encrypted-media; picture-in-picture"
       allowfullscreen>
     </iframe>
   </div>
 
   <script>
-    function unmute() {
-      const iframe = document.getElementById("player");
-      if (!iframe.src.includes("mute=0")) {
-        iframe.src = iframe.src.replace("mute=1", "mute=0");
-      }
-    }
-  </script>
+    let unmuted = false;
 
+    document.addEventListener("click", () => {
+      if (unmuted) return;
+      unmuted = true;
+
+      const iframe = document.getElementById("player");
+
+      // Reload the iframe with sound ON (browsers allow this because user clicked)
+      iframe.src =
+        "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&controls=0&disablekb=1&modestbranding=1&rel=0&playsinline=1";
+    }, { once: true });
+  </script>
 </body>
 </html>
