@@ -1,70 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
   <title>GET TROLLED</title>
-
-  <style>
-    body {
-      margin: 0;
-      background: white;
-      text-align: center;
-      cursor: pointer;
-      font-family: Arial, sans-serif;
-    }
-
-    h1 {
-      font-size: 100px;
-      margin: 30px 0 20px;
-      color: black;
-      user-select: none;
-    }
-
-    .video-wrapper {
-      display: flex;
-      justify-content: center;
-      padding: 0 16px 32px;
-    }
-
-    iframe {
-      width: min(900px, 95vw);
-      aspect-ratio: 16 / 9;
-      border: 6px solid black;
-      border-radius: 16px;
-      overflow: hidden;
-      display: block;
-      background: black;
-    }
-  </style>
 </head>
+<body style="margin:0; background:white; text-align:center;">
 
-<body>
-  <h1>GET TROLLED</h1>
+  <h1 style="font-size:100px; color:black; margin:30px 0;">
+    GET TROLLED
+  </h1>
 
-  <div class="video-wrapper">
-    <iframe
-      id="player"
-      src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&controls=0&disablekb=1&modestbranding=1&rel=0&playsinline=1"
-      title="Rick Roll"
-      allow="autoplay; encrypted-media; picture-in-picture"
-      allowfullscreen>
-    </iframe>
-  </div>
+  <iframe
+    width="800"
+    height="450"
+    src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&controls=0&rel=0&playsinline=1"
+    title="Rick Roll"
+    frameborder="0"
+    allow="autoplay; encrypted-media"
+    allowfullscreen>
+  </iframe>
 
-  <script>
-    let unmuted = false;
-
-    document.addEventListener("click", () => {
-      if (unmuted) return;
-      unmuted = true;
-
-      const iframe = document.getElementById("player");
-
-      // Reload the iframe with sound ON (browsers allow this because user clicked)
-      iframe.src =
-        "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&controls=0&disablekb=1&modestbranding=1&rel=0&playsinline=1";
-    }, { once: true });
-  </script>
 </body>
 </html>
+
