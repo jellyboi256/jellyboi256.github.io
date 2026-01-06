@@ -3,29 +3,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Under Construction</title>
+  <title>It’s Too Late</title>
+
+  <!-- Interesting serif font that fits the cinematic vibe -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
+    :root{
+      /* cool, stormy gray-blue that matches the image */
+      --storm-ink: rgba(210, 222, 232, 0.92);
+      --shadow: rgba(0,0,0,0.75);
     }
-    body {
-      background: #000;
-      color: #fff;
+
+    html, body { height: 100%; margin: 0; }
+
+    body{
+      /* change this filename to your actual image file */
+      background: url("images/abduction.png") center/cover no-repeat fixed;
+      font-family: "Cinzel", serif;
+      overflow: hidden;
+      position: relative;
       display: grid;
       place-items: center;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      padding: 24px;
     }
-    h1 {
-      font-size: clamp(48px, 8vw, 140px);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin: 0;
+
+    /* Mobile: fixed backgrounds can be janky, so disable on small screens */
+    @media (max-width: 768px){
+      body{ background-attachment: scroll; }
+    }
+
+    /* Dark overlay so text reads on any crop */
+    body::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(0,0,0,0.25), rgba(0,0,0,0.70) 70%),
+        linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.65));
+      z-index:0;
+    }
+
+    .wrap{
+      position: relative;
+      z-index: 1;
+      width: min(960px, 100%);
       text-align: center;
+    }
+
+    h1{
+      margin: 0;
+      color: var(--storm-ink);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+
+      /* Responsive sizing for mobile + desktop */
+      font-size: clamp(34px, 7vw, 82px);
+
+      /* Makes it readable on bright parts of the beam */
+      text-shadow:
+        0 2px 10px var(--shadow),
+        0 0 24px rgba(0,0,0,0.55);
+    }
+
+    /* Optional subtle subtitle space if you ever want it */
+    .sub{
+      margin-top: 14px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: clamp(14px, 2.6vw, 18px);
+      color: rgba(210, 222, 232, 0.75);
+      letter-spacing: 0.06em;
+      text-shadow: 0 2px 10px var(--shadow);
     }
   </style>
 </head>
+
 <body>
-  <h1>Under Construction</h1>
+  <main class="wrap">
+    <h1>It’s too late</h1>
+    <!-- delete this line if you don't want a subtitle -->
+    <!-- <div class="sub">Leave before it notices.</div> -->
+  </main>
 </body>
 </html>
+
