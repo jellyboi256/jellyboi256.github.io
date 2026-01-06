@@ -167,7 +167,8 @@
       pointer-events:none;
     }
 
-    #scene{
+    /* ===== DOUBLE-BUFFERED SCENES (fixes late-loading swaps) ===== */
+    .scene{
       position:absolute;
       inset:0;
       width:100%;
@@ -175,10 +176,9 @@
       object-fit: cover;
       z-index: 1;
       opacity: 0;
-      transition: opacity 500ms ease;
+      transition: opacity 450ms ease;
     }
-
-    #scene.visible{ opacity: 1; }
+    .scene.visible{ opacity: 1; }
 
     .vignette{
       position:absolute;
@@ -248,7 +248,7 @@
     }
 
     @media (prefers-reduced-motion: reduce){
-      .lid, #scene { transition: none; }
+      .lid, .scene { transition: none; }
     }
   </style>
 </head>
@@ -273,7 +273,10 @@
   <div class="stage" id="stage">
     <div class="eye-wrap">
       <div class="eye">
-        <img id="scene" alt="Photography showcase" />
+        <!-- Swapped from one img to two (double-buffer) -->
+        <img id="sceneA" class="scene" alt="Photography showcase" />
+        <img id="sceneB" class="scene" alt="Photography showcase" />
+
         <div class="vignette"></div>
         <div class="lid top"></div>
         <div class="lid bottom"></div>
@@ -290,45 +293,88 @@
     ];
 
     const INITIAL_DARK_MS = 700;
-    const HOLD_OPEN_MS   = 5200;
-    const CLOSE_MS       = 340;
-    const CLOSED_HOLD_MS = 180;
-    const OPEN_MS        = 340;
+    const HOLD_OPEN_MS    = 5200;
+
+    const CLOSE_MS        = 340;
+    const OPEN_MS         = 340;
+
+    // If the next image isn't ready, we can keep eyes closed a bit longer
+    const MAX_EXTRA_CLOSED_MS = 1200;
 
     const stage = document.getElementById("stage");
-    const img = document.getElementById("scene");
+    const imgA = document.getElementById("sceneA");
+    const imgB = document.getElementById("sceneB");
+
+    let current = imgA;
+    let next = imgB;
+
     let index = 0;
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-    const sleep = ms => new Promise(r => setTimeout(r, ms));
-
-    function preload(list){
-      list.forEach(src => { const i = new Image(); i.src = src; });
+    async function loadAndDecode(targetImg, src) {
+      return new Promise((resolve, reject) => {
+        targetImg.onload = async () => {
+          try {
+            if (targetImg.decode) await targetImg.decode();
+          } catch (_) {}
+          resolve();
+        };
+        targetImg.onerror = reject;
+        targetImg.src = src;
+      });
     }
-    preload(IMAGES);
 
-    function setImage(i){
-      img.src = IMAGES[i % IMAGES.length];
+    function show(img) { img.classList.add("visible"); }
+    function hide(img) { img.classList.remove("visible"); }
+    function swapBuffers() {
+      const tmp = current;
+      current = next;
+      next = tmp;
     }
 
-    async function blinkAndSwap(){
+    async function primeFirstImage() {
+      await loadAndDecode(current, IMAGES[index]);
+      show(current);
+    }
+
+    async function blinkAndSwapTo(i) {
       stage.classList.add("blinking");
       await sleep(CLOSE_MS);
-      await sleep(CLOSED_HOLD_MS);
-      index = (index + 1) % IMAGES.length;
-      setImage(index);
+
+      const src = IMAGES[i % IMAGES.length];
+      const start = performance.now();
+
+      try {
+        await loadAndDecode(next, src);
+      } catch (e) {
+        stage.classList.remove("blinking");
+        await sleep(OPEN_MS);
+        return;
+      }
+
+      const elapsed = performance.now() - start;
+      const minClosedHold = 120; // keeps blink feeling real
+      let extraHold = Math.max(minClosedHold - elapsed, 0);
+      extraHold = Math.min(extraHold, MAX_EXTRA_CLOSED_MS);
+      if (extraHold > 0) await sleep(extraHold);
+
+      // Swap while still closed
+      hide(current);
+      show(next);
+      swapBuffers();
+
       stage.classList.remove("blinking");
       await sleep(OPEN_MS);
     }
 
-    async function start(){
+    async function start() {
       await sleep(INITIAL_DARK_MS);
-      setImage(index);
-      await sleep(60);
-      img.classList.add("visible");
+      await primeFirstImage();
 
-      while(true){
+      while (true) {
         await sleep(HOLD_OPEN_MS);
-        await blinkAndSwap();
+        index = (index + 1) % IMAGES.length;
+        await blinkAndSwapTo(index);
       }
     }
 
